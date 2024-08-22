@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backlink Analyzer</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+        .container {
+            margin-top: 40px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .table {
+            background-color: #fff;
+            border-radius: 8px;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .table thead {
+            background-color: #343a40;
+            color: #fff;
+        }
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #007bff;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="my-4 text-center">Backlink Analyzer</h1>
+                <form method="POST" action="/backlink-analyze">
+                    <div class="mb-3">
+                        <input type="text" name="url" class="form-control" placeholder="Enter URL here..." required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Analyze</button>
+                </form>
+            </div>
+        </div>
+
+        {% if backlinks %}
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="my-4 text-center">Backlinks Found</h2>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Source URL</th>
+                                <th>Anchor Text</th>
+                                <th>Link Type</th>
+                                <th>Rel Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for backlink in backlinks %}
+                                <tr>
+                                    <td><a href="{{ backlink.source }}" target="_blank">{{ backlink.source }}</a></td>
+                                    <td>{{ backlink.anchor_text }}</td>
+                                    <td>{{ backlink.link_type }}</td>
+                                    <td>{{ backlink.link_rel_type }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <p>No backlinks found or an error occurred. Please try again with a different URL.</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
